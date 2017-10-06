@@ -44,8 +44,15 @@ public class MovementSystem : IInitializeSystem, IExecuteSystem
 			if (Constants.SPEEDS.ContainsKey(type))
 				delta = Constants.SPEEDS[type] * deltaTime;
 
+
 			var X = obj.position.X;
 			var Y = obj.position.Y - delta;
+			if (Y < -Constants.BORDER_Y)
+			{
+				obj.Destroy();
+				continue;
+			}
+
 
 			if (obj.hasSteer)
 				X += obj.steer.Value * deltaTime;

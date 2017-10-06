@@ -23,7 +23,7 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 
 	protected override bool Filter(MovementEntity entity)
 	{
-		return entity.movementType.Value > MovementType.Jump;
+		return entity.hasMovementType && entity.movementType.Value > MovementType.Jump;
 	}
 
 
