@@ -13,6 +13,10 @@ public class PositionComponent : IComponent
 	{
 		return new Vector3(X, Y, 1f);
 	}
+	public Vector3 GetVector2()
+	{
+		return new Vector3(X, Y);
+	}
 }
 
 

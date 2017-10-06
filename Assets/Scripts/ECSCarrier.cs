@@ -16,6 +16,7 @@ public class ECSCarrier : MonoBehaviour
 	private Contexts _contexts;
 	private MovementContext _movementContext;
 	private Feature _movementSystems;
+	private Feature _collisionSystems;
 
 
 	private void Awake()
@@ -33,6 +34,9 @@ public class ECSCarrier : MonoBehaviour
 		_movementSystems.Add(new MovementSystem());
 		_movementSystems.Initialize();
 
+		_collisionSystems = new Feature("Collision");
+		_collisionSystems.Add(new CollisionSystem());
+		_collisionSystems.Initialize();
 
 		//initial test spawn
 		var playerEntity = _movementContext.CreateEntity();
@@ -54,11 +58,15 @@ public class ECSCarrier : MonoBehaviour
 	{
 		_movementSystems.Execute();
 		_movementSystems.Cleanup();
+
+		_collisionSystems.Execute();
+		_collisionSystems.Cleanup();
 	}
 
 
 	private void OnDestroy()
 	{
 		_movementSystems.TearDown();
+		_collisionSystems.TearDown();
 	}
 }
