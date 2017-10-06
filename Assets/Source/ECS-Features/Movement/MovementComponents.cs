@@ -11,7 +11,7 @@ public class PositionComponent : IComponent
 
 	public Vector3 GetVector3()
 	{
-		return new Vector3(X, Y, 1f);
+		return new Vector3(X, Y, Constants.SPRITE_Z);
 	}
 	public Vector3 GetVector2()
 	{

@@ -1,20 +1,9 @@
 ﻿
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class ECSCarrier : MonoBehaviour
 {
-	public static Dictionary<MovementType, float> Speeds = new Dictionary<MovementType, float>()
-	{
-		{ MovementType.Player   , 0.0f },
-		{ MovementType.Jump     , 0.0f },
-		{ MovementType.GameOver , 0.5f },
-		{ MovementType.Static   , 1.5f },
-		{ MovementType.Fast     , 3.0f },
-	};
-
-
 	private Contexts _contexts;
 	private MovementContext _movementContext;
 	private Feature _movementSystems;
@@ -25,7 +14,7 @@ public class ECSCarrier : MonoBehaviour
 
 	private void Awake()
 	{
-		Application.targetFrameRate = 30;
+		Application.targetFrameRate = Constants.TARGET_FRAME_RATE;
 	}
 
 
@@ -51,14 +40,13 @@ public class ECSCarrier : MonoBehaviour
 		_spawnSystems.Initialize();
 
 
-		//initial test spawn
 		var input = Contexts.sharedInstance.input.CreateEntity();
 		input.AddInput(InputType.Lock);
 
 		var playerEntity = _movementContext.CreateEntity();
-		playerEntity.AddPosition(0f, -3.5f);
+		playerEntity.AddPosition(Constants.PLAYER_INITIAL_X, Constants.PLAYER_INITIAL_Y);
 		playerEntity.AddMovementType(MovementType.Player);
-		playerEntity.AddSteer(-1f);
+		playerEntity.AddSteer(Constants.PLAYER_INITIAL_STEER);
 	}
 
 

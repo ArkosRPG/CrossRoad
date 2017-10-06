@@ -84,7 +84,7 @@ public class InputSystem : ReactiveSystem<InputEntity>
 						if (!player.hasJumpTimer && player.movementType.Value != MovementType.Jump)
 						{
 							player.ReplaceMovementType(MovementType.Jump);
-							player.AddJumpTimer(3.3f);
+							player.AddJumpTimer(Constants.SPEEDS[MovementType.Static] + Constants.ADDITIONAL_JUMP_TIME);
 						}
 					}
 					//inputEntity.ReplaceInput(InputType.Lock);
@@ -92,14 +92,14 @@ public class InputSystem : ReactiveSystem<InputEntity>
 				case InputType.SwipeLeft:
 					foreach (var player in players)
 					{
-						player.ReplaceSteer(-3f);
+						player.ReplaceSteer(-Constants.STEERING_SPEED);
 					}
 					inputEntity.ReplaceInput(InputType.Lock);
 					break;
 				case InputType.SwipeRight:
 					foreach (var player in players)
 					{
-						player.ReplaceSteer(3f);
+						player.ReplaceSteer(Constants.STEERING_SPEED);
 					}
 					inputEntity.ReplaceInput(InputType.Lock);
 					break;

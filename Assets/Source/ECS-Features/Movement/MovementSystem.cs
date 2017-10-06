@@ -41,8 +41,8 @@ public class MovementSystem : IInitializeSystem, IExecuteSystem
 
 			var type = obj.movementType.Value;
 			var delta = 0f;
-			if (ECSCarrier.Speeds.ContainsKey(type))
-				delta = ECSCarrier.Speeds[type] * deltaTime;
+			if (Constants.SPEEDS.ContainsKey(type))
+				delta = Constants.SPEEDS[type] * deltaTime;
 
 			var X = obj.position.X;
 			var Y = obj.position.Y - delta;
@@ -50,17 +50,17 @@ public class MovementSystem : IInitializeSystem, IExecuteSystem
 			if (obj.hasSteer)
 				X += obj.steer.Value * deltaTime;
 
-			if (X < -1.26f)
+			if (X < -Constants.BORDER_X - .1f)
 			{
-				X = -1.25f;
+				X = -Constants.BORDER_X;
 				obj.ReplaceSteer(0f);
 				var input = _inputContext.CreateEntity();
 				input.AddInput(InputType.Unlock);
 			}
 			else
-			if (X > 1.26f)
+			if (X > Constants.BORDER_X + .1f)
 			{
-				X = 1.25f;
+				X = Constants.BORDER_X;
 				obj.ReplaceSteer(0f);
 				var input = _inputContext.CreateEntity();
 				input.AddInput(InputType.Unlock);

@@ -24,19 +24,19 @@ public class ECSInput : MonoBehaviour
 				var newPos = Input.mousePosition;
 				var delta = newPos - _touchPosition;
 
-				if (delta.y > 50f)
+				if (delta.y > Constants.MIN_SWIPE_LENGTH)
 				{
 					var input = _context.CreateEntity();
 					input.AddInput(InputType.SwipeUp);
 				}
 
-				if (delta.x < -50f)
+				if (delta.x < -Constants.MIN_SWIPE_LENGTH)
 				{
 					var input = _context.CreateEntity();
 					input.AddInput(InputType.SwipeLeft);
 				}
 				else
-				if (delta.x > 50f)
+				if (delta.x > Constants.MIN_SWIPE_LENGTH)
 				{
 					var input = _context.CreateEntity();
 					input.AddInput(InputType.SwipeRight);

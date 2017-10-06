@@ -50,9 +50,9 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 				var X = Mathf.Abs(delta.x);
 				var Y = Mathf.Abs(delta.y);
 
-				if ((X < 0.67f && Y < 2.00f) ||
-					(X < 1.33f && Y < 1.33f) ||
-					(X < 2.00f && Y < 0.67f))
+				if ((X < Constants.CROSS_BORDER_1 && Y < Constants.CROSS_BORDER_3) ||
+					(X < Constants.CROSS_BORDER_2 && Y < Constants.CROSS_BORDER_2) ||
+					(X < Constants.CROSS_BORDER_3 && Y < Constants.CROSS_BORDER_1))
 				{
 					obstacle.ReplaceMovementType(MovementType.GameOver);
 					crusher.ReplaceMovementType(MovementType.GameOver);
