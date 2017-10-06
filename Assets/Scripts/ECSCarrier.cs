@@ -7,9 +7,9 @@ public class ECSCarrier : MonoBehaviour
 {
 	public static Dictionary<MovementType, float> Speeds = new Dictionary<MovementType, float>()
 	{
-		{ MovementType.Player,  0f },
-		{ MovementType.Static,  5f },
-		{ MovementType.Fast  , 10f },
+		{ MovementType.Player,   0f },
+		{ MovementType.Static, 1.5f },
+		{ MovementType.Fast  ,   3f },
 	};
 
 
@@ -36,16 +36,16 @@ public class ECSCarrier : MonoBehaviour
 
 		//initial test spawn
 		var playerEntity = _movementContext.CreateEntity();
-		playerEntity.AddPosition(0f, 0f);
+		playerEntity.AddPosition(0f, -3.5f);
 		playerEntity.AddMovementType(MovementType.Player);
 		playerEntity.AddSteer(-1f);
 
 		var staticEnemy = _movementContext.CreateEntity();
-		staticEnemy.AddPosition(1f, 5f);
+		staticEnemy.AddPosition(1f, 3.5f);
 		staticEnemy.AddMovementType(MovementType.Static);
 
 		var fastEnemy = _movementContext.CreateEntity();
-		fastEnemy.AddPosition(-1f, 10f);
+		fastEnemy.AddPosition(-1f, 7f);
 		fastEnemy.AddMovementType(MovementType.Fast);
 	}
 
