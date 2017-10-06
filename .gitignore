@@ -43,6 +43,12 @@ sysinfo.txt
 !*.asset.meta
 !*.cs.meta
 !*.png.meta
+!*.dll.meta
+/[Aa]ssets/Plugins/Entitas*/**/*.dll.meta
+/[Aa]ssets/Plugins/Entitas*/**/*.cs.meta
+/[Aa]ssets/Plugins/Entitas*/**/*.png.meta
+/[Aa]ssets/Plugins/Entitas*/**/*.Unity.meta
+/[Aa]ssets/Source/**/*.cs.meta
 
  
 # == #
