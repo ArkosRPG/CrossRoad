@@ -1,0 +1,59 @@
+# ===== #
+# Unity #
+# ===== #
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild
+/[Bb]uilds/
+/[Aa]ssets/[Aa]sset[Ss]tore[Tt]ools*
+/[Ll]ocal[Cc]ache/
+
+# crash reports
+sysinfo.txt
+*.stackdump
+
+# extra
+*.apk
+*.unitypackage
+
+
+# =========================== #
+# Visual Studio / MonoDevelop #
+# =========================== #
+[Ee]xported[Oo]bj/
+.vs/
+*.userprefs
+*.csproj
+*.pidb
+*.pidb.meta
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+.consulo/
+*.tmp
+*.svd
+*.pdb
+
+*.meta
+!*.unity.meta
+!*.prefab.meta
+!*.asset.meta
+!*.cs.meta
+!*.png.meta
+
+ 
+# == #
+# OS #
+# == #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
