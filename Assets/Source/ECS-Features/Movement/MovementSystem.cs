@@ -24,6 +24,21 @@ public class MovementSystem : IInitializeSystem, IExecuteSystem
 		var deltaTime = Time.deltaTime;
 		foreach (var obj in _movers.GetEntities())
 		{
+			if (obj.hasJumpTimer)
+			{
+				var newTimer = obj.jumpTimer.Left - deltaTime;
+				if (newTimer > 0f)
+				{
+					obj.ReplaceJumpTimer(newTimer);
+				}
+				else
+				{
+					obj.RemoveJumpTimer();
+					obj.ReplaceMovementType(MovementType.Player);
+				}
+			}
+
+
 			var type = obj.movementType.Value;
 			var delta = 0f;
 			if (ECSCarrier.Speeds.ContainsKey(type))

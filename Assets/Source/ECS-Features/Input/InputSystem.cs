@@ -81,9 +81,13 @@ public class InputSystem : ReactiveSystem<InputEntity>
 				case InputType.SwipeUp:
 					foreach (var player in players)
 					{
-						player.ReplaceMovementType(MovementType.Jump);
+						if (!player.hasJumpTimer && player.movementType.Value != MovementType.Jump)
+						{
+							player.ReplaceMovementType(MovementType.Jump);
+							player.AddJumpTimer(3.3f);
+						}
 					}
-					inputEntity.ReplaceInput(InputType.Lock);
+					//inputEntity.ReplaceInput(InputType.Lock);
 					break;
 				case InputType.SwipeLeft:
 					foreach (var player in players)

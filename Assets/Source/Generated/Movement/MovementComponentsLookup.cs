@@ -8,19 +8,22 @@
 //------------------------------------------------------------------------------
 public static class MovementComponentsLookup {
 
-    public const int MovementType = 0;
-    public const int Position = 1;
-    public const int Steer = 2;
+    public const int JumpTimer = 0;
+    public const int MovementType = 1;
+    public const int Position = 2;
+    public const int Steer = 3;
 
-    public const int TotalComponents = 3;
+    public const int TotalComponents = 4;
 
     public static readonly string[] componentNames = {
+        "JumpTimer",
         "MovementType",
         "Position",
         "Steer"
     };
 
     public static readonly System.Type[] componentTypes = {
+        typeof(JumpTimerComponent),
         typeof(MovementTypeComponent),
         typeof(PositionComponent),
         typeof(SteerComponent)

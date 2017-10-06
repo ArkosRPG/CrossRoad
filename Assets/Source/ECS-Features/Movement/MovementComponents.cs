@@ -34,6 +34,13 @@ public class MovementTypeComponent : IComponent
 }
 
 
+[Movement]
+public class JumpTimerComponent : IComponent
+{
+	public float Left;
+}
+
+
 public enum MovementType
 {
 	GameOver = 1,
