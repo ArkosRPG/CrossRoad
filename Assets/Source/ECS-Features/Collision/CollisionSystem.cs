@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using Entitas;
 using UnityEngine;
 
@@ -15,26 +16,14 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 	{
 		_playersGroup = _context.GetGroup(MovementMatcher.AllOf(
 											MovementMatcher.Position,
-											MovementMatcher.MovementType,
-											MovementMatcher.Steer)
+											MovementMatcher.MovementType)
 											);
-	}
-
-
-	protected CollisionSystem(ICollector<MovementEntity> collector) : base(collector)
-	{
 	}
 
 
 	protected override bool Filter(MovementEntity entity)
 	{
-		if (_players == null)
-			_players = _playersGroup.GetEntities();
-
-		if (ECSCarrier.Speeds[entity.movementType.Value] == 0f)
-			return false;
-
-		return true;
+		return entity.movementType.Value > MovementType.Jump;
 	}
 
 
@@ -51,11 +40,10 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 
 	protected override void Execute(List<MovementEntity> entities)
 	{
+		_players = _playersGroup.GetEntities().Where(e => e.movementType.Value < MovementType.Jump).ToArray();
+
 		foreach (var player in _players)
 		{
-			if (player.movementType.Value == MovementType.Jump)
-				continue;
-
 			foreach (var enemy in entities)
 			{
 				var delta = player.position.GetVector2() - enemy.position.GetVector2();

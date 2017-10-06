@@ -36,9 +36,9 @@ public class MovementTypeComponent : IComponent
 
 public enum MovementType
 {
-	Player = 1,
+	GameOver = 1,
+	Player,
 	Jump,
-	GameOver,
 	Static,
 	Fast,
 }
