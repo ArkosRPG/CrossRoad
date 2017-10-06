@@ -47,11 +47,11 @@ public class ECSCarrier : MonoBehaviour
 		playerEntity.AddSteer(-1f);
 
 		var staticEnemy = _movementContext.CreateEntity();
-		staticEnemy.AddPosition(1f, 3.5f);
+		staticEnemy.AddPosition(1.25f, 3.5f);
 		staticEnemy.AddMovementType(MovementType.Static);
 
 		var fastEnemy = _movementContext.CreateEntity();
-		fastEnemy.AddPosition(-1f, 7f);
+		fastEnemy.AddPosition(-1.25f, 7f);
 		fastEnemy.AddMovementType(MovementType.Fast);
 	}
 
