@@ -84,7 +84,7 @@ public class InputSystem : ReactiveSystem<InputEntity>
 						if (!player.hasJumpTimer && player.movementType.Value != MovementType.Jump)
 						{
 							player.ReplaceMovementType(MovementType.Jump);
-							player.AddJumpTimer(Constants.SPEEDS[MovementType.Static] + Constants.ADDITIONAL_JUMP_TIME);
+							player.AddJumpTimer(2 * Constants.CROSS_BORDER_3 / Constants.SPEEDS[MovementType.Static] + Constants.ADDITIONAL_JUMP_TIME);
 						}
 					}
 					//inputEntity.ReplaceInput(InputType.Lock);
