@@ -15,9 +15,9 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 	public CollisionSystem(IContext<MovementEntity> context = null) : base(context)
 	{
 		_potentialCrushersGroup = _context.GetGroup(MovementMatcher.AllOf(
-											MovementMatcher.Position,
-											MovementMatcher.MovementType)
-											);
+													MovementMatcher.Position,
+													MovementMatcher.MovementType)
+													);
 	}
 
 
@@ -30,11 +30,10 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 	protected override ICollector<MovementEntity> GetTrigger(IContext<MovementEntity> context)
 	{
 		_context = Contexts.sharedInstance.movement;
-		return new Collector<MovementEntity>(_context.GetGroup(MovementMatcher.AllOf(
-																MovementMatcher.Position,
-																MovementMatcher.MovementType)
-																),
-											GroupEvent.AddedOrRemoved);
+		return _context.GetGroup(MovementMatcher.AllOf(
+									MovementMatcher.Position,
+									MovementMatcher.MovementType)
+									).CreateCollector(GroupEvent.AddedOrRemoved);
 	}
 
 
