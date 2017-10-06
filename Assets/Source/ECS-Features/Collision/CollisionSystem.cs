@@ -8,13 +8,13 @@ using UnityEngine;
 public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 {
 	private MovementContext _context;
-	private IGroup<MovementEntity> _playersGroup = null;
-	private MovementEntity[] _players = null;
+	private IGroup<MovementEntity> _potentialCrushersGroup = null;
+	private MovementEntity[] _obstacles = null;
 
 
 	public CollisionSystem(IContext<MovementEntity> context = null) : base(context)
 	{
-		_playersGroup = _context.GetGroup(MovementMatcher.AllOf(
+		_potentialCrushersGroup = _context.GetGroup(MovementMatcher.AllOf(
 											MovementMatcher.Position,
 											MovementMatcher.MovementType)
 											);
@@ -40,13 +40,13 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 
 	protected override void Execute(List<MovementEntity> entities)
 	{
-		_players = _playersGroup.GetEntities().Where(e => e.movementType.Value < MovementType.Jump).ToArray();
+		_obstacles = _potentialCrushersGroup.GetEntities().Where(e => e.movementType.Value < MovementType.Jump).ToArray();
 
-		foreach (var player in _players)
+		foreach (var obstacle in _obstacles)
 		{
-			foreach (var enemy in entities)
+			foreach (var crusher in entities)
 			{
-				var delta = player.position.GetVector2() - enemy.position.GetVector2();
+				var delta = obstacle.position.GetVector2() - crusher.position.GetVector2();
 				var X = Mathf.Abs(delta.x);
 				var Y = Mathf.Abs(delta.y);
 
@@ -54,13 +54,12 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 					(X < 1.33f && Y < 1.33f) ||
 					(X < 2.00f && Y < 0.67f))
 				{
-					player.ReplaceMovementType(MovementType.GameOver);
-					enemy.ReplaceMovementType(MovementType.GameOver);
-					//break;
+					obstacle.ReplaceMovementType(MovementType.GameOver);
+					crusher.ReplaceMovementType(MovementType.GameOver);
 				}
 			}
 		}
 
-		_players = null;
+		_obstacles = null;
 	}
 }
