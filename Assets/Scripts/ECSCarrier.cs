@@ -20,6 +20,7 @@ public class ECSCarrier : MonoBehaviour
 	private Feature _movementSystems;
 	private Feature _collisionSystems;
 	private Feature _inputSystems;
+	private Feature _spawnSystems;
 
 
 	private void Awake()
@@ -45,6 +46,10 @@ public class ECSCarrier : MonoBehaviour
 		_inputSystems.Add(new InputSystem());
 		_inputSystems.Initialize();
 
+		_spawnSystems = new Feature("Spawn");
+		_spawnSystems.Add(new SpawnSystem());
+		_spawnSystems.Initialize();
+
 
 		//initial test spawn
 		var input = Contexts.sharedInstance.input.CreateEntity();
@@ -54,14 +59,6 @@ public class ECSCarrier : MonoBehaviour
 		playerEntity.AddPosition(0f, -3.5f);
 		playerEntity.AddMovementType(MovementType.Player);
 		playerEntity.AddSteer(-1f);
-
-		var staticEnemy = _movementContext.CreateEntity();
-		staticEnemy.AddPosition(1.25f, 3.5f);
-		staticEnemy.AddMovementType(MovementType.Static);
-
-		var fastEnemy = _movementContext.CreateEntity();
-		fastEnemy.AddPosition(-1.25f, 7f);
-		fastEnemy.AddMovementType(MovementType.Fast);
 	}
 
 
@@ -75,6 +72,9 @@ public class ECSCarrier : MonoBehaviour
 
 		_collisionSystems.Execute();
 		_collisionSystems.Cleanup();
+
+		_spawnSystems.Execute();
+		_spawnSystems.Cleanup();
 	}
 
 
@@ -82,5 +82,6 @@ public class ECSCarrier : MonoBehaviour
 	{
 		_movementSystems.TearDown();
 		_collisionSystems.TearDown();
+		_spawnSystems.TearDown();
 	}
 }
