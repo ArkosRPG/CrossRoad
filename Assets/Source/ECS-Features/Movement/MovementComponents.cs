@@ -33,6 +33,7 @@ public class MovementTypeComponent : IComponent
 public enum MovementType
 {
 	Player = 1,
+	Jump,
 	Static,
 	Fast,
 }
