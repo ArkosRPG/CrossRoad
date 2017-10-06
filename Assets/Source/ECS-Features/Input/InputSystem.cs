@@ -10,6 +10,7 @@ public class InputSystem : ReactiveSystem<InputEntity>
 	private InputContext _context;
 	private MovementContext _movementContext;
 	private IGroup<MovementEntity> _playersGroup = null;
+	private IGroup<MovementEntity> _potentialGameOverGroup = null;
 
 
 	public InputSystem(IContext<InputEntity> context = null) : base(context)
@@ -20,6 +21,7 @@ public class InputSystem : ReactiveSystem<InputEntity>
 													MovementMatcher.MovementType,
 													MovementMatcher.Steer)
 													);
+		_potentialGameOverGroup = _movementContext.GetGroup(MovementMatcher.MovementType);
 	}
 
 
@@ -38,6 +40,16 @@ public class InputSystem : ReactiveSystem<InputEntity>
 
 	protected override void Execute(List<InputEntity> entities)
 	{
+		if (_potentialGameOverGroup.GetEntities().Any(e => e.hasMovementType && e.movementType.Value == MovementType.GameOver))
+		{
+			foreach (var inputEntity in entities)
+			{
+				inputEntity.Destroy();
+			}
+			return;
+		}
+
+
 		var all = _context.GetEntities(InputMatcher.Input);
 		if (all.Any(e => e.input.Input == InputType.Unlock))
 		{
