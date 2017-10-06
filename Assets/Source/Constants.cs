@@ -8,14 +8,14 @@ public static class Constants
 	{
 		{ MovementType.Player   , 0.0f },
 		{ MovementType.Jump     , 0.0f },
-		{ MovementType.GameOver , 0.5f },
-		{ MovementType.Static   , 1.5f },
-		{ MovementType.Fast     , 3.0f },
+		{ MovementType.GameOver , 1.0f },
+		{ MovementType.Static   , 2.5f },
+		{ MovementType.Fast     , 5.0f },
 	};
 	public const float ADDITIONAL_JUMP_TIME = .25f;
 	public const float STEERING_SPEED = 3f;
 
-	public const float SPAWN_INTERVAL = 3f;
+	public const float SPAWN_INTERVAL = 1f;
 
 
 	public const float MIN_SWIPE_LENGTH = 100f;
