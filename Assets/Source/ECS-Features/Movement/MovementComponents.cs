@@ -38,6 +38,7 @@ public enum MovementType
 {
 	Player = 1,
 	Jump,
+	GameOver,
 	Static,
 	Fast,
 }

@@ -53,6 +53,9 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 	{
 		foreach (var player in _players)
 		{
+			if (player.movementType.Value == MovementType.Jump)
+				continue;
+
 			foreach (var enemy in entities)
 			{
 				var delta = player.position.GetVector2() - enemy.position.GetVector2();
@@ -63,7 +66,9 @@ public class CollisionSystem : ReactiveSystem<MovementEntity>, ISystem
 					(X < 1.33f && Y < 1.33f) ||
 					(X < 2.00f && Y < 0.67f))
 				{
-					throw new System.NotImplementedException();
+					player.ReplaceMovementType(MovementType.GameOver);
+					enemy.ReplaceMovementType(MovementType.GameOver);
+					//break;
 				}
 			}
 		}

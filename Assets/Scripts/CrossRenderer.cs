@@ -7,10 +7,11 @@ public sealed class CrossRenderer : MonoBehaviour
 {
 	private Dictionary<MovementType, Color> _colors = new Dictionary<MovementType, Color>()
 	{
-		{ MovementType.Player , Color.white },
-		{ MovementType.Jump   , Color.blue  },
-		{ MovementType.Static , Color.black },
-		{ MovementType.Fast   , Color.black },
+		{ MovementType.Player   , Color.white },
+		{ MovementType.Jump     , Color.blue  },
+		{ MovementType.GameOver , Color.red   },
+		{ MovementType.Static   , Color.black },
+		{ MovementType.Fast     , Color.black },
 	};
 
 

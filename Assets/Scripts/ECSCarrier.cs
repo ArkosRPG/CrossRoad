@@ -7,9 +7,11 @@ public class ECSCarrier : MonoBehaviour
 {
 	public static Dictionary<MovementType, float> Speeds = new Dictionary<MovementType, float>()
 	{
-		{ MovementType.Player,   0f },
-		{ MovementType.Static, 1.5f },
-		{ MovementType.Fast  ,   3f },
+		{ MovementType.Player   , 0.0f },
+		{ MovementType.Jump     , 0.0f },
+		{ MovementType.GameOver , 0.5f },
+		{ MovementType.Static   , 1.5f },
+		{ MovementType.Fast     , 3.0f },
 	};
 
 
