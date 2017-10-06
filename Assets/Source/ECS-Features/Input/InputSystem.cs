@@ -1,7 +1,8 @@
 ﻿
-using System.Collections.Generic;
-using Entitas;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Entitas;
 
 
 public class InputSystem : ReactiveSystem<InputEntity>
@@ -13,57 +14,82 @@ public class InputSystem : ReactiveSystem<InputEntity>
 
 	public InputSystem(IContext<InputEntity> context = null) : base(context)
 	{
+		_movementContext = Contexts.sharedInstance.movement;
 		_playersGroup = _movementContext.GetGroup(MovementMatcher.AllOf(
-											MovementMatcher.Position,
-											MovementMatcher.MovementType,
-											MovementMatcher.Steer)
-											);
+													MovementMatcher.Position,
+													MovementMatcher.MovementType,
+													MovementMatcher.Steer)
+													);
 	}
 
 
 	protected override ICollector<InputEntity> GetTrigger(IContext<InputEntity> context)
 	{
 		_context = Contexts.sharedInstance.input;
-		_movementContext = Contexts.sharedInstance.movement;
 		return new Collector<InputEntity>(_context.GetGroup(InputMatcher.Input), GroupEvent.Added);
 	}
 
 
 	protected override bool Filter(InputEntity entity)
 	{
-		return true;
+		return entity.hasInput;
 	}
 
 
 	protected override void Execute(List<InputEntity> entities)
 	{
+		var all = _context.GetEntities(InputMatcher.Input);
+		if (all.Any(e => e.input.Input == InputType.Unlock))
+		{
+			foreach (var inputEntity in all)
+			{
+				inputEntity.Destroy();
+			}
+			return;
+		}
+		else
+		if (all.Any(e => e.input.Input == InputType.Lock))
+		{
+			foreach (var inputEntity in all.Where(e => e.input.Input != InputType.Lock))
+			{
+				inputEntity.Destroy();
+			}
+			return;
+		}
+
+
 		var players = _playersGroup.GetEntities();
 		foreach (var inputEntity in entities)
 		{
+			if (!inputEntity.hasInput)
+				continue;
+
 			switch (inputEntity.input.Input)
 			{
-				case Input.Tap:
+				case InputType.SwipeUp:
 					foreach (var player in players)
 					{
 						player.ReplaceMovementType(MovementType.Jump);
 					}
+					inputEntity.ReplaceInput(InputType.Lock);
 					break;
-				case Input.SwipeLeft:
+				case InputType.SwipeLeft:
 					foreach (var player in players)
 					{
 						player.ReplaceSteer(-3f);
 					}
+					inputEntity.ReplaceInput(InputType.Lock);
 					break;
-				case Input.SwipeRight:
+				case InputType.SwipeRight:
 					foreach (var player in players)
 					{
 						player.ReplaceSteer(3f);
 					}
+					inputEntity.ReplaceInput(InputType.Lock);
 					break;
 				default:
 					throw new NotImplementedException();
 			}
 		}
-		_context.DestroyAllEntities();
 	}
 }

@@ -45,7 +45,11 @@ public class ECSCarrier : MonoBehaviour
 		_inputSystems.Add(new InputSystem());
 		_inputSystems.Initialize();
 
+
 		//initial test spawn
+		var input = Contexts.sharedInstance.input.CreateEntity();
+		input.AddInput(InputType.Lock);
+
 		var playerEntity = _movementContext.CreateEntity();
 		playerEntity.AddPosition(0f, -3.5f);
 		playerEntity.AddMovementType(MovementType.Player);

@@ -5,13 +5,15 @@ using Entitas;
 [Input]
 public class InputComponent : IComponent
 {
-	public Input Input;
+	public InputType Input;
 }
 
 
-public enum Input
+public enum InputType
 {
-	Tap = 1,
+	Lock = 1,
+	Unlock,
+	SwipeUp,
 	SwipeLeft,
 	SwipeRight,
 }

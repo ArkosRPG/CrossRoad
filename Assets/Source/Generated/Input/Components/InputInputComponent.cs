@@ -11,14 +11,14 @@ public partial class InputEntity {
     public InputComponent input { get { return (InputComponent)GetComponent(InputComponentsLookup.Input); } }
     public bool hasInput { get { return HasComponent(InputComponentsLookup.Input); } }
 
-    public void AddInput(Input newInput) {
+    public void AddInput(InputType newInput) {
         var index = InputComponentsLookup.Input;
         var component = CreateComponent<InputComponent>(index);
         component.Input = newInput;
         AddComponent(index, component);
     }
 
-    public void ReplaceInput(Input newInput) {
+    public void ReplaceInput(InputType newInput) {
         var index = InputComponentsLookup.Input;
         var component = CreateComponent<InputComponent>(index);
         component.Input = newInput;

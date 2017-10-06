@@ -7,12 +7,15 @@ public class MovementSystem : IInitializeSystem, IExecuteSystem
 {
 	private MovementContext _context;
 	IGroup<MovementEntity> _movers;
+	private InputContext _inputContext;
 
 
 	public void Initialize()
 	{
-		_context = Contexts.sharedInstance.movement;
+		var contexts = Contexts.sharedInstance;
+		_context = contexts.movement;
 		_movers = _context.GetGroup(MovementMatcher.AllOf(MovementMatcher.Position, MovementMatcher.MovementType));
+		_inputContext = contexts.input;
 	}
 
 
@@ -32,16 +35,20 @@ public class MovementSystem : IInitializeSystem, IExecuteSystem
 			if (obj.hasSteer)
 				X += obj.steer.Value * deltaTime;
 
-			if (X < -1.25f)
+			if (X < -1.26f)
 			{
 				X = -1.25f;
 				obj.ReplaceSteer(0f);
+				var input = _inputContext.CreateEntity();
+				input.AddInput(InputType.Unlock);
 			}
 			else
-			if (X > 1.25f)
+			if (X > 1.26f)
 			{
 				X = 1.25f;
 				obj.ReplaceSteer(0f);
+				var input = _inputContext.CreateEntity();
+				input.AddInput(InputType.Unlock);
 			}
 
 			if (X != obj.position.X || Y != obj.position.Y)
