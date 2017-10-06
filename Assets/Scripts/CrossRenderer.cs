@@ -7,21 +7,35 @@ using UnityEngine;
 #endif
 public sealed class CrossRenderer : MonoBehaviour
 {
-	[SerializeField]
-	private Color _color = Color.magenta;
+	private Transform _tf;
+
+	[SerializeField] private Color _color = Color.magenta;
 	private SpriteRenderer[] _sprites;
 
 
-	void Start()
+	private void Start()
 	{
+		_tf = transform;
 		_sprites = GetComponentsInChildren<SpriteRenderer>();
-#if UNITY_EDITOR
+		UpdateColor();
 	}
 
-	void Update()
+
+	private void Update()
 	{
+#if UNITY_EDITOR
+		if (!Application.isPlaying)
+		{
+			UpdateColor();
+			return;
+		}
 #endif
-		UpdateColor();
+	}
+
+
+	public void UpdatePosition(PositionComponent position)
+	{
+		_tf.position = position.GetVector3();
 	}
 
 
@@ -30,7 +44,6 @@ public sealed class CrossRenderer : MonoBehaviour
 		_color = color;
 		UpdateColor();
 	}
-
 	private void UpdateColor()
 	{
 		foreach (var sprite in _sprites)

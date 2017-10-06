@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Entitas;
@@ -12,7 +13,7 @@ public class ECSLinker : MonoBehaviour
 	[SerializeField] private GameObject _playerPrefab;
 	[SerializeField] private GameObject _enemyPrefab;
 
-	private Dictionary<MovementEntity, Transform> _renderers;
+	private Dictionary<MovementEntity, CrossRenderer> _renderers;
 
 	private Contexts _contexts;
 	private MovementContext _movementContext;
@@ -22,7 +23,7 @@ public class ECSLinker : MonoBehaviour
 	{
 		_tf = transform;
 
-		_renderers = new Dictionary<MovementEntity, Transform>();
+		_renderers = new Dictionary<MovementEntity, CrossRenderer>();
 
 		_contexts = Contexts.sharedInstance;
 		_movementContext = _contexts.movement;
@@ -36,7 +37,7 @@ public class ECSLinker : MonoBehaviour
 	{
 		var movementEntity = entity as MovementEntity;
 		if (movementEntity == null)
-			throw new System.NotImplementedException("OnCreate: wrong entity type: " + entity.GetType());
+			throw new NotImplementedException("OnCreate: wrong entity type: " + entity.GetType());
 
 		StartCoroutine(MovementContext_OnEntityCreated_Coroutine(movementEntity));
 	}
@@ -45,10 +46,20 @@ public class ECSLinker : MonoBehaviour
 	private IEnumerator MovementContext_OnEntityCreated_Coroutine(MovementEntity movementEntity)
 	{
 		yield return new WaitForEndOfFrame();
-		var pos = movementEntity.position;
+
+		var positionComponent = movementEntity.position;
 		var prefab = movementEntity.movementType.Value == MovementType.Player ? _playerPrefab : _enemyPrefab;
-		var go = Instantiate(prefab, GetPositionFromComponent(pos), Quaternion.identity, _tf);
-		_renderers.Add(movementEntity, go.transform);
+		var go = Instantiate(prefab, positionComponent.GetVector3(), Quaternion.identity, _tf);
+
+		var renderer = go.GetComponent<CrossRenderer>();
+		if (renderer == null)
+			throw new MissingComponentException(typeof(CrossRenderer) + " doesn't present");
+
+		_renderers.Add(movementEntity, renderer);
+
+		yield return new WaitForEndOfFrame();
+
+		renderer.UpdateColor(movementEntity.movementType.Value == MovementType.Player ? Color.white : Color.black);
 	}
 
 
@@ -56,10 +67,10 @@ public class ECSLinker : MonoBehaviour
 	{
 		var movementEntity = entity as MovementEntity;
 		if (movementEntity == null)
-			throw new System.NotImplementedException("OnDestroy: wrong entity type: " + entity.GetType());
+			throw new NotImplementedException("OnDestroy: wrong entity type: " + entity.GetType());
 
 		if (!_renderers.ContainsKey(movementEntity))
-			throw new System.NotImplementedException("OnDestroy: entity doesn't have linked renderer");
+			throw new NullReferenceException("OnDestroy: entity doesn't have linked renderer");
 
 		_renderers.Remove(movementEntity);
 	}
@@ -71,13 +82,7 @@ public class ECSLinker : MonoBehaviour
 		foreach (var pair in _renderers)
 		{
 			pos = pair.Key.position;
-			pair.Value.position = GetPositionFromComponent(pos);
+			pair.Value.UpdatePosition(pos);
 		}
-	}
-
-
-	private Vector3 GetPositionFromComponent(PositionComponent pos)
-	{
-		return new Vector3(pos.X, pos.Y, 1f);
 	}
 }
