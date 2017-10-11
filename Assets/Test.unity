@@ -1125,9 +1125,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1968408169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89ad30e4057668849a32239f53548734, type: 3}
+  m_Script: {fileID: 11500000, guid: 33590206933341a4186ce7b6eedb676d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _curtain: {fileID: 1351950995}
   _playerPrefab: {fileID: 1251528493278600, guid: 7ccdddc438c1c9e4e9293c568b35afbc,
     type: 2}
   _enemyPrefab: {fileID: 1802581329190830, guid: bcbb34b342eb0a641b612078f6405707,
@@ -1144,7 +1145,6 @@ MonoBehaviour:
   - {fileID: 1590784300}
   - {fileID: 902219856}
   _scoreRoot: {fileID: 129964519}
-  _curtain: {fileID: 1351950995}
 --- !u!1 &2141928782
 GameObject:
   m_ObjectHideFlags: 0
