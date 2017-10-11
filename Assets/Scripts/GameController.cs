@@ -19,10 +19,18 @@ public class GameController : MonoBehaviour
 
 	private bool _scoring = true;
 	private int _score = 0;
+	private int _hiScore = 0;
 
 
 	void Start()
 	{
+		if (PlayerPrefs.HasKey(Constants.PP_SCORE))
+		{
+			_hiScore = PlayerPrefs.GetInt(Constants.PP_SCORE, _score);
+			UpdateScore();
+		}
+
+
 		var go = Instantiate(_playerPrefab, new Vector3(Constants.PLAYER_INITIAL_X, Constants.PLAYER_INITIAL_Y, 0f), Quaternion.identity, _root);
 		var pc = go.GetComponent<PlayerController>();
 		pc.Init(this, MovementType.Player, Constants.PLAYER_INITIAL_STEER);
@@ -78,6 +86,14 @@ public class GameController : MonoBehaviour
 				{
 					obstacle.CMC.ReportCollision();
 					crusher.CMC.ReportCollision();
+
+					if (_scoring)
+					{
+						_scoring = false;
+						_hiScore = Mathf.Max(_hiScore, _score);
+						PlayerPrefs.SetInt(Constants.PP_SCORE, _hiScore);
+						PlayerPrefs.Save();
+					}
 				}
 			}
 		}
@@ -99,9 +115,10 @@ public class GameController : MonoBehaviour
 
 	private void UpdateScore()
 	{
+		var txt = string.Format("Score: {0}\nBest: {1}", _score, _hiScore);
 		foreach (var text in _scoreTexts)
 		{
-			text.text = "Score: " + _score.ToString();
+			text.text = txt;
 		}
 	}
 

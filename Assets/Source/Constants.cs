@@ -46,4 +46,6 @@ public static class Constants
 
 	public const float SPRITE_Z = 1f;
 	public const int TARGET_FRAME_RATE = 30;
+
+	public const string PP_SCORE = "HISCORE";
 }
