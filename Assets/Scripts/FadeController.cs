@@ -6,14 +6,19 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
-public partial class GameController : MonoBehaviour
+public class FadeController : MonoBehaviour
 {
 	[SerializeField] private Image _curtain;
+	[SerializeField] private Transform _scoreRoot;
 
 
-	private bool _started = false;
+	public bool Started { get; private set; } = false;
 
 
+	private void Start()
+	{
+		StartCoroutine(StartCoroutine());
+	}
 	private IEnumerator StartCoroutine()
 	{
 		var start = DateTime.UtcNow;
@@ -25,10 +30,14 @@ public partial class GameController : MonoBehaviour
 			yield return new WaitForEndOfFrame();
 		}
 		_curtain.color = new Color(0f, 0f, 0f, 0f);
-		_started = true;
+		Started = true;
 	}
 
 
+	public void Restart()
+	{
+		StartCoroutine(RestartCoroutine());
+	}
 	private IEnumerator RestartCoroutine()
 	{
 		var start = DateTime.UtcNow;
