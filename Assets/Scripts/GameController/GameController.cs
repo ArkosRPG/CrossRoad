@@ -4,7 +4,8 @@ using UnityEngine;
 
 public partial class GameController : MonoBehaviour
 {
-	[SerializeField] ScoreController _scoreController;
+	[SerializeField] private ScoreController _scoreController;
+	[SerializeField] private CollisionsController _collisionsController;
 
 
 	private float _lastSpawn = Constants.SPAWN_INTERVAL;
@@ -35,6 +36,7 @@ public partial class GameController : MonoBehaviour
 		}
 
 		// Collision
-		Update_Collisions();
+		if (_collisionsController.IsGameOver())
+			StartCoroutine(RestartCoroutine());
 	}
 }

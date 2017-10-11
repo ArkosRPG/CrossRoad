@@ -4,19 +4,24 @@ using System.Linq;
 using UnityEngine;
 
 
-public partial class GameController : MonoBehaviour
+public class CollisionsController : MonoBehaviour
 {
-	private HashSet<Wrap> _crosses = new HashSet<Wrap>();
+	[SerializeField] ScoreController _scoreController;
 
 
-	private void AddToCollisionList(Wrap wrap)
+	private HashSet<CrossWrap> _crosses = new HashSet<CrossWrap>();
+
+
+	public void Add(CrossWrap wrap)
 	{
 		_crosses.Add(wrap);
 	}
 
 
-	private void Update_Collisions()
+	public bool IsGameOver()
 	{
+		var isRestartNeeded = false;
+
 		var crushers = _crosses.Where(c => c.CMC.IsCrusher());
 		var obstacles = _crosses.Where(c => c.CMC.IsObstacle());
 
@@ -35,10 +40,11 @@ public partial class GameController : MonoBehaviour
 					obstacle.CMC.ReportCollision();
 					crusher.CMC.ReportCollision();
 
-					if (_scoreController.FinalScoreSaving())
-						StartCoroutine(RestartCoroutine());
+					isRestartNeeded |= _scoreController.FinalScoreSaving();
 				}
 			}
 		}
+
+		return isRestartNeeded;
 	}
 }
