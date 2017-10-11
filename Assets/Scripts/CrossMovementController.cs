@@ -8,10 +8,9 @@ using UnityEngine;
 [RequireComponent(typeof(CrossRenderer))]
 public class CrossMovementController : MonoBehaviour
 {
-	private Transform _tf;
+	protected Transform _tf;
 	private CrossRenderer _renderer;
 	[SerializeField] protected MovementType _movementType;
-	protected Switch _steering = 0;
 
 
 	private void Start()
@@ -30,7 +29,6 @@ public class CrossMovementController : MonoBehaviour
 #endif
 		var pos = _tf.position;
 		var Y = pos.y;
-		var X = pos.x;
 
 		// Falling
 		{
@@ -47,24 +45,8 @@ public class CrossMovementController : MonoBehaviour
 			}
 		}
 
-		// Steering
-		{
-			X += _steering * Constants.STEERING_SPEED * Time.deltaTime;
-			if (X < -Constants.BORDER_X)
-			{
-				X = -Constants.BORDER_X;
-				_steering = 0;
-			}
-			else
-			if (X > Constants.BORDER_X)
-			{
-				X = Constants.BORDER_X;
-				_steering = 0;
-			}
-		}
-
-		if (X != pos.x || Y != pos.y)
-			_tf.position = new Vector3(X, Y, pos.z);
+		if (Y != pos.y)
+			_tf.position = new Vector3(pos.x, Y, pos.z);
 	}
 
 

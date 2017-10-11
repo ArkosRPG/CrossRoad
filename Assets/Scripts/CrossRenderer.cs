@@ -10,18 +10,16 @@ public sealed class CrossRenderer : MonoBehaviour
 	private SpriteRenderer[] _sprites;
 
 
-	void Start()
-	{
-		_sprites = GetComponentsInChildren<SpriteRenderer>();
-	}
-
-
 	public void UpdateColor(MovementType movementType)
 	{
 		if (!Constants.COLORS.ContainsKey(movementType))
 			return;
 
 		var color = Constants.COLORS[movementType];
+
+		if (_sprites == null)
+			_sprites = GetComponentsInChildren<SpriteRenderer>();
+
 		foreach (var sprite in _sprites)
 		{
 			sprite.color = color;

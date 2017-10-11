@@ -7,18 +7,20 @@ public static class Constants
 {
 	public static Dictionary<MovementType, Color> COLORS = new Dictionary<MovementType, Color>()
 	{
+		{ MovementType.GameOver , Color.red     },
 		{ MovementType.Player   , Color.white   },
 		{ MovementType.Jump     , Color.blue    },
-		{ MovementType.GameOver , Color.red     },
+		{ MovementType.Steering , (Color.white+Color.grey)/2    },
 		{ MovementType.Static   , Color.black   },
 		{ MovementType.Fast     , Color.black   },
 	};
 
 	public static Dictionary<MovementType, float> SPEEDS = new Dictionary<MovementType, float>()
 	{
+		{ MovementType.GameOver , 1.0f },
 		{ MovementType.Player   , 0.0f },
 		{ MovementType.Jump     , 0.0f },
-		{ MovementType.GameOver , 1.0f },
+		{ MovementType.Steering	, 0.0f },
 		{ MovementType.Static   , 2.5f },
 		{ MovementType.Fast     , 5.0f },
 	};

@@ -1,7 +1,13 @@
 ﻿
+using System;
+using UnityEngine;
+
+
+[Serializable]
 public class Switch
 {
-	private int _value = 0;
+	[SerializeField] private int _value = 0;
+
 	public int Value
 	{
 		get { return _value; }
@@ -24,5 +30,11 @@ public class Switch
 	public static implicit operator int(Switch @switch)
 	{
 		return @switch.Value;
+	}
+
+
+	public static implicit operator bool(Switch @switch)
+	{
+		return @switch.Value != 0;
 	}
 }

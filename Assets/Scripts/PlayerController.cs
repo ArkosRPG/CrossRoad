@@ -7,6 +7,7 @@ public class PlayerController : CrossMovementController
 	[HideInInspector] private GameObject _playerObj;
 	private CrossRenderer _playerRenderer;
 
+	private Switch _steering = 0;
 	private float _jumpingLeft = 0f;
 
 	private bool _touch = false;
@@ -15,29 +16,42 @@ public class PlayerController : CrossMovementController
 
 	protected override void Update()
 	{
-		// Falling and Steering
+		// Falling
 		base.Update();
+
+		// Steering
+		{
+			var pos = _tf.position;
+			var X = pos.x;
+			X += _steering * Constants.STEERING_SPEED * Time.deltaTime;
+
+			if (X < -Constants.BORDER_X)
+			{
+				X = -Constants.BORDER_X;
+				_steering = 0;
+			}
+			else
+			if (X > Constants.BORDER_X)
+			{
+				X = Constants.BORDER_X;
+				_steering = 0;
+			}
+
+			if (X != pos.x)
+				_tf.position = new Vector3(X, pos.y, pos.z);
+		}
 
 		// Jumping
 		{
 			if (_jumpingLeft > 0f)
-			{
 				_jumpingLeft -= Time.deltaTime;
-				if (_jumpingLeft <= 0f)
-				{
-					_movementType = MovementType.Player;
-					UpdateRenderer();
-				}
-			}
 		}
 
 		// Controls
 		if (!_touch)
 		{
 			if (_touch = Input.GetMouseButton(0))
-			{
 				_touchPosition = Input.mousePosition;
-			}
 		}
 		else
 		{
@@ -45,16 +59,6 @@ public class PlayerController : CrossMovementController
 			{
 				var newPos = Input.mousePosition;
 				var delta = newPos - _touchPosition;
-
-				if (delta.y > Constants.MIN_SWIPE_LENGTH)
-				{
-					if (_jumpingLeft <= 0f)
-					{
-						_jumpingLeft = Constants.SPEEDS[MovementType.Static] + Constants.ADDITIONAL_JUMP_TIME;
-						_movementType = MovementType.Jump;
-						UpdateRenderer();
-					}
-				}
 
 				if (delta.x < -Constants.MIN_SWIPE_LENGTH)
 				{
@@ -67,7 +71,21 @@ public class PlayerController : CrossMovementController
 					if (_steering == 0)
 						_steering = 1;
 				}
+
+				if (delta.y > Constants.MIN_SWIPE_LENGTH)
+				{
+					if (_jumpingLeft <= 0f)
+						_jumpingLeft = Constants.SPEEDS[MovementType.Static] + Constants.ADDITIONAL_JUMP_TIME;
+				}
 			}
 		}
+
+		var newState = _jumpingLeft > 0f ? MovementType.Jump : _steering ? MovementType.Steering : MovementType.Player;
+		if (_movementType != newState)
+		{
+			_movementType = newState;
+			UpdateRenderer();
+		}
+
 	}
 }
