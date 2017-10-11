@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class GameController : MonoBehaviour
@@ -9,11 +10,15 @@ public class GameController : MonoBehaviour
 	[SerializeField] private GameObject _playerPrefab;
 	[SerializeField] private GameObject _enemyPrefab;
 	[SerializeField] private Transform _root;
+	[SerializeField] private Text[] _scoreTexts;
 
 	private float _lastSpawn = Constants.SPAWN_INTERVAL;
 
 	private HashSet<Wrap> _crosses;
 	private HashSet<Wrap> _pool;
+
+	private bool _scoring = true;
+	private int _score = 0;
 
 
 	void Start()
@@ -81,8 +86,23 @@ public class GameController : MonoBehaviour
 
 	public void ReportFree(GameObject go, Transform tf, CrossMovementController cmc)
 	{
+		if (_scoring)
+		{
+			_score += cmc.GetScore();
+			UpdateScore();
+		}
+
 		go.SetActive(false);
 		_pool.Add(new Wrap(go, tf, cmc));
+	}
+
+
+	private void UpdateScore()
+	{
+		foreach (var text in _scoreTexts)
+		{
+			text.text = "Score: " + _score.ToString();
+		}
 	}
 
 

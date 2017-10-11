@@ -54,8 +54,8 @@ public class CrossMovementController : MonoBehaviour
 			// Out of screen
 			if (Y < -Constants.BORDER_Y)
 			{
-				_movementType = MovementType.OutOfGame;
 				_gameController.ReportFree(_go, _tf, this);
+				_movementType = MovementType.OutOfGame;
 				return;
 			}
 		}
@@ -95,5 +95,25 @@ public class CrossMovementController : MonoBehaviour
 	{
 		return _movementType < MovementType.Jump
 			&& _movementType > MovementType.OutOfGame;
+	}
+
+
+	public int GetScore()
+	{
+		switch (_movementType)
+		{
+			case MovementType.Static:
+				return 1;
+			case MovementType.Fast:
+				return 2;
+
+			case MovementType.OutOfGame:
+			case MovementType.GameOver:
+			case MovementType.Player:
+			case MovementType.Steering:
+			case MovementType.Jump:
+			default:
+				throw new System.Exception(_movementType + " don't have score!");
+		}
 	}
 }
