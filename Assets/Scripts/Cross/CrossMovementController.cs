@@ -7,9 +7,9 @@ public partial class CrossMovementController : MonoBehaviour
 	[SerializeField] protected MovementType _movementType;
 
 
-	public virtual void Init(GameController gameController, MovementType movementType)
+	public virtual void Init(PoolController poolController, MovementType movementType)
 	{
-		_gameController = gameController;
+		_poolController = poolController;
 		_movementType = movementType;
 		UpdateRenderer();
 	}

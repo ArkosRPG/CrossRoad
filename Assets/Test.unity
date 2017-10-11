@@ -274,7 +274,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &538054592
 GameObject:
@@ -543,7 +543,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1249698486
 GameObject:
@@ -585,7 +585,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1252855038
 GameObject:
@@ -657,8 +657,8 @@ RectTransform:
   m_Children:
   - {fileID: 1351950994}
   - {fileID: 129964519}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 2141928787}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -961,6 +961,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1590784297}
+--- !u!1 &1629776037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1629776039}
+  - component: {fileID: 1629776038}
+  m_Layer: 0
+  m_Name: PoolController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1629776038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1629776037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1a5bbf4e119f34fb5ebf4d7884bbbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreController: {fileID: 160044265}
+  _collisionsController: {fileID: 1097637543}
+  _playerPrefab: {fileID: 1251528493278600, guid: 7ccdddc438c1c9e4e9293c568b35afbc,
+    type: 2}
+  _enemyPrefab: {fileID: 1802581329190830, guid: bcbb34b342eb0a641b612078f6405707,
+    type: 2}
+  _root: {fileID: 1629776039}
+--- !u!4 &1629776039
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1629776037}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1756053426
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1187,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1968408171
 MonoBehaviour:
@@ -1154,13 +1201,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fadeController: {fileID: 1249698487}
+  _poolController: {fileID: 1629776038}
   _scoreController: {fileID: 160044265}
   _collisionsController: {fileID: 1097637543}
-  _playerPrefab: {fileID: 1251528493278600, guid: 7ccdddc438c1c9e4e9293c568b35afbc,
-    type: 2}
-  _enemyPrefab: {fileID: 1802581329190830, guid: bcbb34b342eb0a641b612078f6405707,
-    type: 2}
-  _root: {fileID: 0}
 --- !u!1 &2141928782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1246,7 +1289,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1252855041}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

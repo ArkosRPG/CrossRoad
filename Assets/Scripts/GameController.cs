@@ -2,9 +2,10 @@
 using UnityEngine;
 
 
-public partial class GameController : MonoBehaviour
+public class GameController : MonoBehaviour
 {
 	[SerializeField] private FadeController _fadeController;
+	[SerializeField] private PoolController _poolController;
 	[SerializeField] private ScoreController _scoreController;
 	[SerializeField] private CollisionsController _collisionsController;
 
@@ -17,7 +18,7 @@ public partial class GameController : MonoBehaviour
 		if (_scoreController == null)
 			_scoreController = FindObjectOfType<ScoreController>();
 
-		InstantiatePlayer();
+		_poolController.InstantiatePlayer();
 	}
 
 
@@ -32,7 +33,7 @@ public partial class GameController : MonoBehaviour
 		if (_lastSpawn > Constants.SPAWN_INTERVAL)
 		{
 			_lastSpawn -= Constants.SPAWN_INTERVAL;
-			Pull();
+			_poolController.Pull();
 		}
 
 		// Collision

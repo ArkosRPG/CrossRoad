@@ -4,16 +4,21 @@ using System.Linq;
 using UnityEngine;
 
 
-public partial class GameController : MonoBehaviour
+public class PoolController : MonoBehaviour
 {
+	[SerializeField] private ScoreController _scoreController;
+	[SerializeField] private CollisionsController _collisionsController;
+
+
 	[SerializeField] private GameObject _playerPrefab;
 	[SerializeField] private GameObject _enemyPrefab;
 	[SerializeField] private Transform _root;
 
+
 	private HashSet<CrossWrap> _pool = new HashSet<CrossWrap>();
 
 
-	private void InstantiatePlayer()
+	public void InstantiatePlayer()
 	{
 		var go = Instantiate(_playerPrefab, new Vector3(Constants.PLAYER_INITIAL_X, Constants.PLAYER_INITIAL_Y, 0f), Quaternion.identity, _root);
 		var pc = go.GetComponent<PlayerController>();
@@ -42,7 +47,7 @@ public partial class GameController : MonoBehaviour
 	}
 
 
-	private void Pull()
+	public void Pull()
 	{
 		CrossWrap wrap;
 		if (_pool.Count > 0)

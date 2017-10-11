@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(CrossRenderer))]
 public partial class CrossMovementController : MonoBehaviour
 {
-	private GameController _gameController;
+	private PoolController _poolController;
 
 	private GameObject _go;
 	protected Transform _tf;
@@ -53,7 +53,7 @@ public partial class CrossMovementController : MonoBehaviour
 			// Out of screen
 			if (Y < -Constants.BORDER_Y)
 			{
-				_gameController.ReportFree(_go, _tf, this);
+				_poolController.ReportFree(_go, _tf, this);
 				_movementType = MovementType.OutOfGame;
 				return;
 			}
