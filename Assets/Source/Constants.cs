@@ -20,7 +20,7 @@ public static class Constants
 		{ MovementType.GameOver , 1.0f },
 		{ MovementType.Player   , 0.0f },
 		{ MovementType.Jump     , 0.0f },
-		{ MovementType.Steering	, 0.0f },
+		{ MovementType.Steering , 0.0f },
 		{ MovementType.Static   , 2.5f },
 		{ MovementType.Fast     , 5.0f },
 	};
@@ -35,7 +35,7 @@ public static class Constants
 
 	public const float PLAYER_INITIAL_X = 0f;
 	public const float PLAYER_INITIAL_Y = -3.5f;
-	public const float PLAYER_INITIAL_STEER = -3f;
+	public const int PLAYER_INITIAL_STEER = -1;
 	public const float BORDER_X = 1.25f;
 	public const float BORDER_Y = 6f;
 

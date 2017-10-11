@@ -1,10 +1,10 @@
 ﻿
+using System;
 using UnityEngine;
 
 
 public class PlayerController : CrossMovementController
 {
-	[HideInInspector] private GameObject _playerObj;
 	private CrossRenderer _playerRenderer;
 
 	private Switch _steering = 0;
@@ -86,6 +86,19 @@ public class PlayerController : CrossMovementController
 			_movementType = newState;
 			UpdateRenderer();
 		}
+	}
 
+
+	[Obsolete("Use with switch instead", true)]
+	public override void Init(GameController gameController, MovementType movementType)
+	{
+		throw new NotSupportedException();
+	}
+
+
+	public void Init(GameController gameController, MovementType movementType, Switch steering)
+	{
+		base.Init(gameController, movementType);
+		_steering = steering;
 	}
 }

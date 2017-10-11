@@ -8,6 +8,9 @@ using UnityEngine;
 [RequireComponent(typeof(CrossRenderer))]
 public class CrossMovementController : MonoBehaviour
 {
+	private GameController _gameController;
+
+	private GameObject _go;
 	protected Transform _tf;
 	private CrossRenderer _renderer;
 	[SerializeField] protected MovementType _movementType;
@@ -15,6 +18,7 @@ public class CrossMovementController : MonoBehaviour
 
 	private void Start()
 	{
+		_go = gameObject;
 		_tf = transform;
 		_renderer = GetComponent<CrossRenderer>();
 		UpdateRenderer();
@@ -40,7 +44,7 @@ public class CrossMovementController : MonoBehaviour
 			// Out of screen
 			if (Y < -Constants.BORDER_Y)
 			{
-				Destroy(gameObject);
+				_gameController.ReportFree(_go, _tf, this);
 				return;
 			}
 		}
@@ -53,5 +57,12 @@ public class CrossMovementController : MonoBehaviour
 	protected void UpdateRenderer()
 	{
 		_renderer.UpdateColor(_movementType);
+	}
+
+
+	public virtual void Init(GameController gameController, MovementType movementType)
+	{
+		_gameController = gameController;
+		_movementType = movementType;
 	}
 }
