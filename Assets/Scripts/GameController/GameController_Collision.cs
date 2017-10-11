@@ -35,15 +35,8 @@ public partial class GameController : MonoBehaviour
 					obstacle.CMC.ReportCollision();
 					crusher.CMC.ReportCollision();
 
-					if (_scoring)
-					{
-						_scoring = false;
-						_hiScore = Mathf.Max(_hiScore, _score);
-						PlayerPrefs.SetInt(Constants.PP_SCORE, _hiScore);
-						PlayerPrefs.Save();
-
+					if (_scoreController.FinalScoreSaving())
 						StartCoroutine(RestartCoroutine());
-					}
 				}
 			}
 		}

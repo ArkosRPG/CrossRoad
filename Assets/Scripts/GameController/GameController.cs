@@ -4,20 +4,18 @@ using UnityEngine;
 
 public partial class GameController : MonoBehaviour
 {
+	[SerializeField] ScoreController _scoreController;
+
+
 	private float _lastSpawn = Constants.SPAWN_INTERVAL;
 
 
 	private void Start()
 	{
-		if (PlayerPrefs.HasKey(Constants.PP_SCORE))
-		{
-			_hiScore = PlayerPrefs.GetInt(Constants.PP_SCORE, _score);
-			UpdateScore();
-		}
+		if (_scoreController == null)
+			_scoreController = FindObjectOfType<ScoreController>();
 
 		InstantiatePlayer();
-
-
 		StartCoroutine(StartCoroutine());
 	}
 

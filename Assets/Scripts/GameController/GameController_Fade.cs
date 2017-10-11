@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public partial class GameController : MonoBehaviour
 {
 	[SerializeField] private Image _curtain;
+	[SerializeField] private Transform _scoreRoot;
 
 
 	private bool _started = false;

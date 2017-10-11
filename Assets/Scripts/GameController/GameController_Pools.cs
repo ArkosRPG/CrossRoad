@@ -62,7 +62,7 @@ public partial class GameController : MonoBehaviour
 	public void ReportFree(GameObject go, Transform tf, CrossMovementController cmc)
 	{
 		Push(new Wrap(go, tf, cmc));
-		GatherScore(cmc);
+		_scoreController.GatherScore(cmc);
 	}
 
 
