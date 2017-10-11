@@ -11,6 +11,7 @@ public partial class CrossMovementController : MonoBehaviour
 	{
 		_gameController = gameController;
 		_movementType = movementType;
+		UpdateRenderer();
 	}
 
 
