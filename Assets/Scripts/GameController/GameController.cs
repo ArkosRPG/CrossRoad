@@ -4,6 +4,7 @@ using UnityEngine;
 
 public partial class GameController : MonoBehaviour
 {
+	[SerializeField] private FadeController _fadeController;
 	[SerializeField] private ScoreController _scoreController;
 	[SerializeField] private CollisionsController _collisionsController;
 
@@ -17,13 +18,12 @@ public partial class GameController : MonoBehaviour
 			_scoreController = FindObjectOfType<ScoreController>();
 
 		InstantiatePlayer();
-		StartCoroutine(StartCoroutine());
 	}
 
 
 	private void Update()
 	{
-		if (!_started)
+		if (!_fadeController.Started)
 			return;
 
 		// Spawn
@@ -37,6 +37,6 @@ public partial class GameController : MonoBehaviour
 
 		// Collision
 		if (_collisionsController.IsGameOver())
-			StartCoroutine(RestartCoroutine());
+			_fadeController.Restart();
 	}
 }
