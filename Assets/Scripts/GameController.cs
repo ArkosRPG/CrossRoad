@@ -1,7 +1,9 @@
 ﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -20,6 +22,8 @@ public class GameController : MonoBehaviour
 	private bool _scoring = true;
 	private int _score = 0;
 	private int _hiScore = 0;
+
+	private Coroutine _restartCoroutine;
 
 
 	void Start()
@@ -93,10 +97,19 @@ public class GameController : MonoBehaviour
 						_hiScore = Mathf.Max(_hiScore, _score);
 						PlayerPrefs.SetInt(Constants.PP_SCORE, _hiScore);
 						PlayerPrefs.Save();
+
+						StartCoroutine(RestartCoroutine());
 					}
 				}
 			}
 		}
+	}
+
+
+	private IEnumerator RestartCoroutine()
+	{
+		yield return new WaitForSeconds(Constants.RESTART_PERIOD);
+		SceneManager.LoadScene(0);
 	}
 
 

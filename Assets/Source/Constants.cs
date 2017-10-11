@@ -48,4 +48,6 @@ public static class Constants
 	public const int TARGET_FRAME_RATE = 30;
 
 	public const string PP_SCORE = "HISCORE";
+
+	public const float RESTART_PERIOD = 5f;
 }
