@@ -7,35 +7,24 @@ using UnityEngine;
 #endif
 public sealed class CrossRenderer : MonoBehaviour
 {
-	[SerializeField]
-	private Color _color = Color.magenta;
 	private SpriteRenderer[] _sprites;
 
 
 	void Start()
 	{
 		_sprites = GetComponentsInChildren<SpriteRenderer>();
-#if UNITY_EDITOR
-	}
-
-	void Update()
-	{
-#endif
-		UpdateColor();
 	}
 
 
-	public void UpdateColor(Color color)
+	public void UpdateColor(MovementType movementType)
 	{
-		_color = color;
-		UpdateColor();
-	}
+		if (!Constants.COLORS.ContainsKey(movementType))
+			return;
 
-	private void UpdateColor()
-	{
+		var color = Constants.COLORS[movementType];
 		foreach (var sprite in _sprites)
 		{
-			sprite.color = _color;
+			sprite.color = color;
 		}
 	}
 }
