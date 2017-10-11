@@ -50,4 +50,5 @@ public static class Constants
 	public const string PP_SCORE = "HISCORE";
 
 	public const float RESTART_PERIOD = 5f;
+	public const float START_PERIOD = 2f;
 }

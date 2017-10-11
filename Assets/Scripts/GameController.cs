@@ -1,10 +1,12 @@
 ﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 
 public class GameController : MonoBehaviour
@@ -13,6 +15,10 @@ public class GameController : MonoBehaviour
 	[SerializeField] private GameObject _enemyPrefab;
 	[SerializeField] private Transform _root;
 	[SerializeField] private Text[] _scoreTexts;
+	[SerializeField] private Transform _scoreRoot;
+	[SerializeField] private Image _curtain;
+
+	private bool _started = false;
 
 	private float _lastSpawn = Constants.SPAWN_INTERVAL;
 
@@ -23,17 +29,20 @@ public class GameController : MonoBehaviour
 	private int _score = 0;
 	private int _hiScore = 0;
 
-	private Coroutine _restartCoroutine;
+
+	private void Start()
+	{
+		StartCoroutine(StartCoroutine());
+	}
 
 
-	void Start()
+	private IEnumerator StartCoroutine()
 	{
 		if (PlayerPrefs.HasKey(Constants.PP_SCORE))
 		{
 			_hiScore = PlayerPrefs.GetInt(Constants.PP_SCORE, _score);
 			UpdateScore();
 		}
-
 
 		var go = Instantiate(_playerPrefab, new Vector3(Constants.PLAYER_INITIAL_X, Constants.PLAYER_INITIAL_Y, 0f), Quaternion.identity, _root);
 		var pc = go.GetComponent<PlayerController>();
@@ -43,11 +52,26 @@ public class GameController : MonoBehaviour
 		_crosses.Add(new Wrap(go, pc.transform, pc));
 
 		_pool = new HashSet<Wrap>();
+
+
+		var start = DateTime.UtcNow;
+		var progress = 0f;
+		while (progress < 1f)
+		{
+			progress = (float)(DateTime.UtcNow - start).TotalSeconds / Constants.START_PERIOD;
+			_curtain.color = new Color(0f, 0f, 0f, 1f - progress);
+			yield return new WaitForEndOfFrame();
+		}
+		_curtain.color = new Color(0f, 0f, 0f, 0f);
+		_started = true;
 	}
 
 
 	void Update()
 	{
+		if (!_started)
+			return;
+
 		// Spawn
 		_lastSpawn += Time.deltaTime;
 
@@ -108,7 +132,18 @@ public class GameController : MonoBehaviour
 
 	private IEnumerator RestartCoroutine()
 	{
-		yield return new WaitForSeconds(Constants.RESTART_PERIOD);
+		var start = DateTime.UtcNow;
+		var delta = Constants.BORDER_Y / 2 / Constants.RESTART_PERIOD;
+		Vector3 pos;
+		var progress = 0f;
+		while (progress < 1f)
+		{
+			progress = (float)(DateTime.UtcNow - start).TotalSeconds / Constants.RESTART_PERIOD;
+			_curtain.color = new Color(0f, 0f, 0f, progress);
+			pos = _scoreRoot.position;
+			_scoreRoot.position = new Vector3(pos.x, pos.y - delta * Time.deltaTime);
+			yield return new WaitForEndOfFrame();
+		}
 		SceneManager.LoadScene(0);
 	}
 
