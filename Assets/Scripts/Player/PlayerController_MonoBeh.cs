@@ -1,9 +1,9 @@
 ﻿
-using System;
 using UnityEngine;
 
 
-public class PlayerController : CrossMovementController
+[RequireComponent(typeof(CrossRenderer))]
+public partial class PlayerController : CrossMovementController
 {
 	private CrossRenderer _playerRenderer;
 
@@ -90,19 +90,5 @@ public class PlayerController : CrossMovementController
 			_movementType = newState;
 			UpdateRenderer();
 		}
-	}
-
-
-	[Obsolete("Use with switch instead. Exists for end of game where player can be spawned as enemy.", true)]
-	public override void Init(GameController gameController, MovementType movementType)
-	{
-		base.Init(gameController, movementType);
-	}
-
-
-	public void Init(GameController gameController, MovementType movementType, Switch steering)
-	{
-		base.Init(gameController, movementType);
-		_steering = steering;
 	}
 }

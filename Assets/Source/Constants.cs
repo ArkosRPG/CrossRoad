@@ -5,6 +5,12 @@ using UnityEngine;
 
 public static class Constants
 {
+	public static Dictionary<MovementType, int> SCORE = new Dictionary<MovementType, int>()
+	{
+		{ MovementType.Static   , 1 },
+		{ MovementType.Fast     , 2 },
+	};
+
 	public static Dictionary<MovementType, Color> COLORS = new Dictionary<MovementType, Color>()
 	{
 		{ MovementType.GameOver , Color.red     },
