@@ -19,6 +19,10 @@ public class PlayerController : CrossMovementController
 		// Falling
 		base.Update();
 
+		if (_movementType < MovementType.Player ||
+			_movementType > MovementType.Jump)
+			return;
+
 		// Steering
 		{
 			var pos = _tf.position;
@@ -89,10 +93,10 @@ public class PlayerController : CrossMovementController
 	}
 
 
-	[Obsolete("Use with switch instead", true)]
+	[Obsolete("Use with switch instead. Exists for end of game where player can be spawned as enemy.", true)]
 	public override void Init(GameController gameController, MovementType movementType)
 	{
-		throw new NotSupportedException();
+		base.Init(gameController, movementType);
 	}
 
 

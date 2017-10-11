@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
 	private float _lastSpawn = Constants.SPAWN_INTERVAL;
 
+	private HashSet<Wrap> _crosses;
 	private HashSet<Wrap> _pool;
 
 
@@ -21,12 +22,16 @@ public class GameController : MonoBehaviour
 		var pc = go.GetComponent<PlayerController>();
 		pc.Init(this, MovementType.Player, Constants.PLAYER_INITIAL_STEER);
 
+		_crosses = new HashSet<Wrap>();
+		_crosses.Add(new Wrap(go, pc.transform, pc));
+
 		_pool = new HashSet<Wrap>();
 	}
 
 
 	void Update()
 	{
+		// Spawn
 		_lastSpawn += Time.deltaTime;
 
 		if (_lastSpawn > Constants.SPAWN_INTERVAL)
@@ -44,8 +49,31 @@ public class GameController : MonoBehaviour
 			else
 			{
 				var go = Instantiate(_enemyPrefab, new Vector3(-Constants.BORDER_X * (Random.value > .5f ? -1f : 1f), Constants.BORDER_Y, 0f), Quaternion.identity, _root);
-				var enemy = go.GetComponent<CrossMovementController>();
-				enemy.Init(this, Random.value > .5f ? MovementType.Fast : MovementType.Static);
+				var cmc = go.GetComponent<CrossMovementController>();
+				cmc.Init(this, Random.value > .5f ? MovementType.Fast : MovementType.Static);
+				_crosses.Add(new Wrap(go, go.transform, cmc));
+			}
+		}
+
+		//Collisions
+		var crushers = _crosses.Where(c => c.CMC.IsCrusher());
+		var obstacles = _crosses.Where(c => c.CMC.IsObstacle());
+
+		foreach (var obstacle in obstacles)
+		{
+			foreach (var crusher in crushers)
+			{
+				var delta = obstacle.Tf.position - crusher.Tf.position;
+				var X = Mathf.Abs(delta.x);
+				var Y = Mathf.Abs(delta.y);
+
+				if ((X < Constants.CROSS_BORDER_1 && Y < Constants.CROSS_BORDER_3) ||
+					(X < Constants.CROSS_BORDER_2 && Y < Constants.CROSS_BORDER_2) ||
+					(X < Constants.CROSS_BORDER_3 && Y < Constants.CROSS_BORDER_1))
+				{
+					obstacle.CMC.ReportCollision();
+					crusher.CMC.ReportCollision();
+				}
 			}
 		}
 	}

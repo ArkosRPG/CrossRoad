@@ -16,11 +16,21 @@ public class CrossMovementController : MonoBehaviour
 	[SerializeField] protected MovementType _movementType;
 
 
+	private void OnEnable()
+	{
+		if (_go == null)
+			_go = gameObject;
+		if (_tf == null)
+			_tf = transform;
+		if (_renderer == null)
+			_renderer = GetComponent<CrossRenderer>();
+
+		UpdateRenderer();
+	}
+
+
 	private void Start()
 	{
-		_go = gameObject;
-		_tf = transform;
-		_renderer = GetComponent<CrossRenderer>();
 		UpdateRenderer();
 	}
 
@@ -44,6 +54,7 @@ public class CrossMovementController : MonoBehaviour
 			// Out of screen
 			if (Y < -Constants.BORDER_Y)
 			{
+				_movementType = MovementType.OutOfGame;
 				_gameController.ReportFree(_go, _tf, this);
 				return;
 			}
@@ -64,5 +75,25 @@ public class CrossMovementController : MonoBehaviour
 	{
 		_gameController = gameController;
 		_movementType = movementType;
+	}
+
+
+	public void ReportCollision()
+	{
+		_movementType = MovementType.GameOver;
+		UpdateRenderer();
+	}
+
+
+	public bool IsCrusher()
+	{
+		return _movementType > MovementType.Jump;
+	}
+
+
+	public bool IsObstacle()
+	{
+		return _movementType < MovementType.Jump
+			&& _movementType > MovementType.OutOfGame;
 	}
 }

@@ -1,7 +1,8 @@
 ﻿
 public enum MovementType
 {
-	GameOver = 1,
+	OutOfGame = 1,
+	GameOver,
 	Player,
 	Steering,
 	Jump,
